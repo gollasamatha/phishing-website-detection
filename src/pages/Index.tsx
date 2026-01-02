@@ -1,12 +1,75 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { HeroSection } from '@/components/HeroSection';
+import { URLInput } from '@/components/URLInput';
+import { AnalysisResult } from '@/components/AnalysisResult';
+import { EducationalSection } from '@/components/EducationalSection';
+import { Footer } from '@/components/Footer';
+import { 
+  extractFeatures, 
+  analyzeFeatures, 
+  calculateRiskScore, 
+  classifyURL,
+  type FeatureAnalysis 
+} from '@/lib/featureExtraction';
+
+interface AnalysisState {
+  url: string;
+  classification: 'legitimate' | 'suspicious' | 'phishing';
+  riskScore: number;
+  analysis: FeatureAnalysis[];
+}
 
 const Index = () => {
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [result, setResult] = useState<AnalysisState | null>(null);
+
+  const handleAnalyze = async (url: string) => {
+    setIsAnalyzing(true);
+    setResult(null);
+
+    // Simulate analysis delay for UX
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // Extract features from URL
+    const features = extractFeatures(url);
+    
+    // Analyze each feature
+    const analysis = analyzeFeatures(features);
+    
+    // Calculate overall risk score
+    const riskScore = calculateRiskScore(analysis);
+    
+    // Classify the URL
+    const classification = classifyURL(riskScore);
+
+    setResult({
+      url,
+      classification,
+      riskScore,
+      analysis,
+    });
+
+    setIsAnalyzing(false);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen flex flex-col bg-background cyber-grid">
+      <main className="flex-1 container mx-auto px-4 py-12">
+        <HeroSection />
+        <URLInput onAnalyze={handleAnalyze} isAnalyzing={isAnalyzing} />
+        
+        {result && (
+          <AnalysisResult
+            url={result.url}
+            classification={result.classification}
+            riskScore={result.riskScore}
+            analysis={result.analysis}
+          />
+        )}
+
+        {!result && <EducationalSection />}
+      </main>
+      <Footer />
     </div>
   );
 };
