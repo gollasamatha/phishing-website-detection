@@ -1,62 +1,85 @@
-import { Shield, Lock, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Shield, Zap, Brain, Lock } from 'lucide-react';
 
 export function HeroSection() {
   return (
-    <div className="text-center mb-12">
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-12"
+    >
+      {/* Animated Logo */}
       <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="inline-flex items-center justify-center p-4 mb-6 rounded-2xl bg-primary/10 border border-primary/20 glow-primary"
+        className="relative inline-block mb-6"
+        whileHover={{ scale: 1.05 }}
+        transition={{ type: "spring", stiffness: 300 }}
       >
-        <Shield className="w-12 h-12 text-primary animate-pulse-glow" />
+        <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
+        <div className="relative p-4 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 backdrop-blur-lg">
+          <Shield className="w-16 h-16 text-primary" />
+        </div>
       </motion.div>
 
-      <motion.h1
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-      >
-        <span className="text-foreground">Phishing </span>
-        <span className="text-gradient-safe">Detection</span>
-        <span className="text-foreground"> System</span>
-      </motion.h1>
+      {/* Title with gradient */}
+      <h1 className="text-4xl md:text-6xl font-bold mb-4">
+        <span className="text-gradient-safe">
+          PhishGuard
+        </span>
+        <span className="text-foreground"> Pro</span>
+      </h1>
+      
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+        Advanced AI-powered phishing detection with{' '}
+        <span className="text-primary font-semibold">20+ detection algorithms</span>,{' '}
+        typosquatting analysis, and homograph attack prevention.
+      </p>
 
-      <motion.p
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8"
-      >
-        Advanced URL analysis using rule-based detection to identify potential phishing websites. 
-        Protect yourself from malicious links.
-      </motion.p>
+      {/* Feature badges */}
+      <div className="flex flex-wrap justify-center gap-3 mb-8">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2 }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/50 border border-border backdrop-blur-sm"
+        >
+          <Zap className="w-4 h-4 text-warning" />
+          <span className="text-sm">Real-time Analysis</span>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/50 border border-border backdrop-blur-sm"
+        >
+          <Brain className="w-4 h-4 text-primary" />
+          <span className="text-sm">20+ Detection Features</span>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4 }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-card/50 border border-border backdrop-blur-sm"
+        >
+          <Lock className="w-4 h-4 text-safe" />
+          <span className="text-sm">Privacy First</span>
+        </motion.div>
+      </div>
 
+      {/* Code-style decoration */}
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="flex flex-wrap justify-center gap-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="font-mono text-sm text-muted-foreground"
       >
-        {[
-          { icon: Shield, label: 'Real-time Analysis', desc: 'Instant URL scanning' },
-          { icon: Lock, label: 'Security Features', desc: '10+ detection parameters' },
-          { icon: Eye, label: 'Transparent Results', desc: 'Detailed breakdown' },
-        ].map((feature, index) => (
-          <div
-            key={index}
-            className="flex items-center gap-3 px-4 py-2 rounded-xl bg-card border border-border"
-          >
-            <feature.icon className="w-5 h-5 text-primary" />
-            <div className="text-left">
-              <p className="font-semibold text-foreground text-sm">{feature.label}</p>
-              <p className="text-xs text-muted-foreground">{feature.desc}</p>
-            </div>
-          </div>
-        ))}
+        <span className="text-primary">{'const'}</span>
+        {' security = '}
+        <span className="text-safe">{'await'}</span>
+        {' analyze('}
+        <span className="text-warning">url</span>
+        {');'}
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
